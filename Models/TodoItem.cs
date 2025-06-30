@@ -1,12 +1,15 @@
-﻿namespace TodoApi.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TodoApi.Models
 {
     public class TodoItem
     {
-        public int Id { get; set; }
 
-        public required string Title { get; set; } = string.Empty;
+        [Key] public int Id { get; set; }
 
-        public required string Description { get; set; } = string.Empty;
+        public required string Title { get; set; } //= string.Empty;
+
+        public required string Description { get; set; } //= string.Empty;
         
         public bool IsCompleted { get; set; }
 

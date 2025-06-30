@@ -28,8 +28,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "tarea",
-        "Type": "TodoApi.Models.TodoItem",
+        "Name": "todoDto",
+        "Type": "TodoApi.Models.DTOs.Request.CreateTodoItemDto",
         "IsRequired": true
       }
     ],
@@ -37,9 +37,7 @@
       {
         "Type": "TodoApi.Models.TodoItem",
         "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
+          "application/json"
         ],
         "StatusCode": 200
       }
