@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Lista de Tareas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+    <!-- SECCION 1: PANTALLA DE INICIO-->
+
+    <div id="notificaciones" class="oculto"></div>
+
+        <div id="vista-inicio">
+            <h1>Gestor de Tareas</h1>
+            <nav>
+                <button id="btn-ver-tareas">Ver Todas las tareas</button>
+                <button id="btn-ir-a-crear">Crear nueva Tarea</button>
+            </nav>
+        </div>
+        <!-- SECCION 2: LA VISTA PARA VER TODAS LAS TAREAS (VA A ESTAR OCULTA POR FEDECTO) -->
+        <div id="vista-lista-tareas" class="oculto">
+            <h2>Todas las tareas</h2>
+            <ul id="lista-tareas">
+                <!-- ACA LAS TAREAS SE INSERTARAN DINAMICAMENTE -->
+            </ul>
+            <button class="btn-volver">← Volver al Inicio</button>
+        </div>
+        <!-- SECCION 3: LA VISTA PARA CREAR UNA NUEVA TAREA (VA A ESTAR OCULTA POR FEDECTO) -->
+         <div id="vista-crear-tarea" class="oculto">
+            <h2>Crear Nueva Tarea</h2>
+            <form id="form-crear-tarea">
+                <input type="text" id="input-titulo" placeholder="Titulo de la tarea" required>
+                <textarea id="input-descripcion" placeholder="Descripción de la tarea" required></textarea>
+                <button id="guardar" type="submit">Guardar Tarea</button>
+            </form>
+            <button class="btn-volver">← Volver al Inicio</button>
+         </div>
+        <!-- SECCION 4: LA VISTA PARA EDITAR UNA TAREA (VA A ESTAR OCULTA POR FEDECTO) -->
+         <div id="vista-detalle-tarea" class="oculto">
+            <h2 id="detalle-titulo"></h2>
+            <p id="detalle-descripcion"></p>
+            <p>Estado: <span id="detalle-estado"></span></p>
+            <button id="btn-cambiar-estado">Marcar como Completado</button>
+            <button id="btn-eliminar-tarea" class="btn-peligro">Eliminar Tarea</button>
+            <hr>
+            <button class="btn-volver">← Volver al Inicio</button>
+         </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
