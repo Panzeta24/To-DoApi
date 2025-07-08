@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         crear: document.getElementById('vista-crear-tarea'),
         detalle: document.getElementById('vista-detalle-tarea'),
     };
-    const notificacionEl = document.getElementById('notificacion');
+    const notificacionEl = document.getElementById('notificaciones');
     function mostrarNotificacion(mensaje, tipo = 'info') {
         notificacionEl.textContent = mensaje;   // Asignamos el mensaje a la notificación
         notificacionEl.className = "";  // Limpiamos las clases anteriores
@@ -28,7 +28,18 @@ document.addEventListener('DOMContentLoaded', () => {
         verTareas: document.getElementById('btn-ver-tareas'),
         irACrear: document.getElementById('btn-ir-a-crear'),
         volver: document.querySelectorAll(".btn-volver"), // querySelectorAll porque hay varios
+        btnEliminarTarea: document.getElementById('btn-eliminar-tarea'),
+        btnCambiarEstado: document.getElementById('btn-cambiar-estado'),
     };
+    const detalles ={
+        detalleTitulo: document.getElementById('detalle-titulo'),
+        detalleDescripcion: document.getElementById('detalle-descripcion'),
+        detalleEstado: document.getElementById('detalle-estado'),
+        btnCambiarEstado: document.getElementById('btn-cambiar-estado'),
+        vistaDetalle: document.getElementById('vista-detalle-tarea'),
+    }
+    
+
 
     let tareas = []; // Variable para almacenar las tareas obtenidas de la API
 
@@ -207,29 +218,109 @@ async function crearTareaAPI(nuevaTarea){
     }
 
     function renderizarDetalleTarea(tarea){
-
-        const detalleTitulo = document.getElementById('detalle-titulo');
-        const detalleDescripcion = document.getElementById('detalle-descripcion');
-        const detalleEstado = document.getElementById('detalle-estado');
-        const btnCambiarEstado = document.getElementById('btn-cambiar-estado');
-        const vistaDetalle = document.getElementById('vista-detalle-tarea');
-
-        vistaDetalle.dataset.idActual = tarea.id; // ASIGNAMOS EL ID DE LA TAREA ACTUAL PARA USARLO EN LOS BOTONES DESPUES
+        detalles.vistaDetalle.dataset.idActual = tarea.id; // ASIGNAMOS EL ID DE LA TAREA ACTUAL PARA USARLO EN LOS BOTONES DESPUES
 
         // OBTENEMOS LOS DATOS Y CON ELLOS RELLENAMOS LOS CAMPOS DEL HTML
-        detalleTitulo.textContent = tarea.title;
-        detalleDescripcion.textContent = tarea.description;
-        detalleEstado.textContent = tarea.isCompleted ? 'Completada' : 'Pendiente';
+        detalles.detalleTitulo.textContent = tarea.title;
+        detalles.detalleDescripcion.textContent = tarea.description;
+        detalles.detalleEstado.textContent = tarea.isCompleted ? 'Completada' : 'Pendiente';
 
         if (tarea.isCompleted) {
-            btnCambiarEstado.textContent = 'Marcar como Pendiente';
+            botones.btnCambiarEstado.textContent = 'Marcar como Pendiente';
         }else{
-            btnCambiarEstado.textContent = 'Marcar como Completada';
+            botones.btnCambiarEstado.textContent = 'Marcar como Completada';
         }
-        btnCambiarEstado.disabled = false;
+        botones.btnCambiarEstado.disabled = false;
 
         mostrarVista('detalle'); // MOSTRAMOS LA VISTA DE DETALLE
     }
+
+    // FUNCION PARA ELIMINAR TAREA DE LA BASE DE DATOS
+async function eliminarTareaAPI(id){
+    try{    // PRIMERO, PREGUNTAMOS AL USUARIO SI ESTA SEGURO DE ELIMINAR LA TAREA
+        if(!confirm('¿Estás seguro de que quieres eliminar esta tarea?')) {
+            return; // Si el usuario cancela, no hacemos nada
+        }
+            // SE ESPECIFICA LA URL DE LA API CON EL ID DE LA TAREA A ELIMINAR
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: 'DELETE', // MENCION AL METODO HTTP (DELETE EN ESTE CASO)
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok){  // SI LA API DEVUELVE UN ERROR, LANZAMOS UNA EXCEPCION
+            throw new Error(`Error al eliminar la tarea: ${response.statusText}`);
+        }
+        console.log("Tarea eliminada con éxito");
+        return true; // DEVUELVE TRUE SI LA TAREA SE ELIMINO CORRECTAMENTE
+    }catch(error){
+        console.error('Error al eliminar la tarea:', error);
+        alert('Error al eliminar la tarea. Inténtalo más tarde.');
+        return false; // DEVUELVE FALSE EN CASO DE ERROR
+    }
+}
+    // EVENT LISTENER PARA EL BOTON DE ELIMINAR TAREA
+    botones.btnEliminarTarea.addEventListener('click', async () => {
+        const idTareaAEliminar = detalles.vistaDetalle.dataset.idActual; // OBTENEMOS EL ID DE LA TAREA ACTUAL DESDE EL DATASET DEL VISTA DETALLE
+        if(!idTareaAEliminar){
+            alert('No se pudo obtener el ID de la tarea. Inténtalo más tarde.');
+            return;
+        }
+        // CONFIRMACION DEL USUARIO
+        const confirmacion = confirm('¿Estás seguro de que quieres eliminar esta tarea?');
+        if (!confirmacion){
+            console.log(`Eliminando tarea con ID: ${idTareaAEliminar}`);
+            return;
+        }
+
+        const exito = await eliminarTareaAPI(idTareaAEliminar); // LLAMADO A LA FUNCION QUE ELIMINA LA TAREA
+        if(exito){
+            alert('Tarea eliminada con éxito.');
+
+            botones.verTareas.click();
+        }
+    });
+
+    // FUNCION PARA ACTUALIZAR EL ESTADO DE UNA TAREA
+    async function actualizarTareaAPI(tareaActualizada){
+        try{
+            const response = await fetch(`${API_URL}/${tareaActualizada.id}`, {
+                method: "PUT", // MENCION AL METODO HTTP (PUT EN ESTE CASO)
+                headers: {
+                    'Content-Type': 'application/json'  // MENCIONA QUE EL CONTENIDO ES JSON
+                },
+                body: JSON.stringify(tareaActualizada)
+        });
+        if(!response.ok){
+            throw new Error(`Error al actualizar la tarea: ${response.statusText}`);
+        }
+        console.log("Tarea con ID: ${tareaActualizada.id} actualizada con éxito");
+        return true; // DEVUELVE TRUE SI LA TAREA SE ACTUALIZA CORRECTAMENTE
+        } catch(error){
+        console.error("No se pudo actualizar la tarea:", error);
+        alert('Error al actualizar la tarea. Inténtalo más tarde.');
+        return false; // DEVUELVE FALSE EN CASO DE ERROR
+        }
+    }
+
+
+
+    // EVENT LISTENER PARA CAMBIAR EL ESTADO DE LA TAREA
+    botones.btnCambiarEstado.addEventListener('click', async () => {
+        const idTareaActual = detalles.vistaDetalle.dataset.idActual;
+        // LLAMADO A LA FUNCION QUE BUSCA LA TAREA POR ID
+        const tareaActualizar = await obtenerTareasPorIdAPI(idTareaActual); // OBTENEMOS LOS DETALLES DE LA TAREA ACTUAL
+        if(!tareaActualizar){
+            alert('No se pudo obtener la tarea actual. Inténtalo más tarde.');
+            return;
+        }
+        // INVERTIMOS EL ESTADO DE LA TAREA
+        const exito = await actualizarTareaAPI(tareaActualizar);
+        if(exito){
+            renderizarDetalleTarea(tareaActualizar); // VOLVEMOS A RENDERIZAR LOS DETALLES DE LA TAREA
+        }
+         mostrarNotificacion("¡Estado de la tarea actualizado con éxito!", "exito");
+    });
 
 
 

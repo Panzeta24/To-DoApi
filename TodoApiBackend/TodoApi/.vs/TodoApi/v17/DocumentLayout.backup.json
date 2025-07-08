@@ -58,8 +58,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAiwBUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T13:29:51.826Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-18T13:29:51.826Z"
             },
             {
               "$type": "Document",
@@ -69,7 +68,7 @@
               "RelativeDocumentMoniker": "Services\\TodoServices.cs",
               "ToolTip": "C:\\Users\\tecno8\\Development\\TodoListApp\\TodoApiBackend\\TodoApi\\Services\\TodoServices.cs",
               "RelativeToolTip": "Services\\TodoServices.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAAAwwEMAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-24T16:27:16.635Z",
               "EditorCaption": ""
@@ -82,7 +81,7 @@
               "RelativeDocumentMoniker": "Controllers\\TodoController.cs",
               "ToolTip": "C:\\Users\\tecno8\\Development\\TodoListApp\\TodoApiBackend\\TodoApi\\Controllers\\TodoController.cs",
               "RelativeToolTip": "Controllers\\TodoController.cs",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAowGcAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAIwMoAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-19T14:20:56.841Z",
               "EditorCaption": ""
@@ -133,8 +132,7 @@
               "RelativeToolTip": "Models\\TodoItem.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T13:26:10.052Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-18T13:26:10.052Z"
             },
             {
               "$type": "Document",

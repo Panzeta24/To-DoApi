@@ -140,7 +140,15 @@ namespace TodoApi.Controllers
 
         public async Task<IActionResult> ActualizarTarea(int id, TodoItem tarea)
         {
-            try
+            var resultado = await _todoServices.ActualizarTarea(id, tarea);
+            if (!resultado)
+            {
+                return BadRequest();
+            }
+            return NoContent();
+
+
+            /*try
             {
                 var resultado = await _todoServices.ActualizarTarea(id, tarea);
                 if (!resultado)
@@ -155,7 +163,7 @@ namespace TodoApi.Controllers
                 Console.WriteLine($"Error al actualizar tarea con ID {id}: {ex.Message}");
                 return StatusCode(500, "Ocurrió un error al actualizar la tarea.");
             }
-            /*try
+            try
             {
                 // Verifica que el ID de la URL coincida con el de la tarea
                 if (id != tarea.Id)
@@ -191,7 +199,7 @@ namespace TodoApi.Controllers
                 return StatusCode(500, "No se pudo actualizar la tarea.");
             }*/
         }
-        
+
         // DELETE api/<TodoController>/5
         // Elimina una tarea por su ID
         [HttpDelete("{id}")]
